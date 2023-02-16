@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-private const val API_KEY = "YOUR_API"
+private const val API_KEY = "YOUR_API "
 
 @Module
 @InstallIn(SingletonComponent::class)
