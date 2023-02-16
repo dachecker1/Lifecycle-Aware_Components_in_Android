@@ -9,7 +9,7 @@
 
   <androidx.fragment.app.FragmentContainerView
     android:id="@+id/trivia_fragment"
-    android:name="com.yourcompany.android.awarenessfood.FoodTriviaFragment"
+    android:name="com.vk.lifecycle_aware_components_in_android.FoodTriviaFragment"
     android:layout_width="0dp"
     android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
