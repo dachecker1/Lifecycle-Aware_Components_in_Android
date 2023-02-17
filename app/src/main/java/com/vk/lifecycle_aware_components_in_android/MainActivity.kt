@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        networkMonitor = NetworkMonitor(this)
+        networkMonitor = NetworkMonitor(this, lifecycle)
         lifecycle.addObserver(networkMonitor)
 
         viewModel.recipeState.observe(this, Observer {

@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,10 @@ import kotlinx.coroutines.launch
  * This class is in charge of listening to the state of the network connection and notifying the
  * activity if the state of the connection changes.
  * */
-class NetworkMonitor constructor(private val context: Context) : DefaultLifecycleObserver {
+class NetworkMonitor constructor(
+    private val context: Context,
+    private val lifecycle : Lifecycle
+    ) : DefaultLifecycleObserver {
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
     private var connectivityManager: ConnectivityManager? = null
@@ -50,8 +54,10 @@ class NetworkMonitor constructor(private val context: Context) : DefaultLifecycl
     }
 
     private fun registerNetworkCallback() {
-        initCoroutine()
-        initNetworkMonitoring()
+        if(lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+            initCoroutine()
+            initNetworkMonitoring()
+        }
     }
 
     private fun unregisterNetworkCallback() {
