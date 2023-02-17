@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,17 +30,31 @@ class NetworkMonitor constructor(private val context: Context) : DefaultLifecycl
     val networkAvailableStateFlow
         get() = _networkAvailableStateFlow
 
-    fun init() {
+    override fun onCreate(owner: LifecycleOwner) {
+        super.onCreate(owner)
+        init()
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        registerNetworkCallback()
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+        unregisterNetworkCallback()
+    }
+    private fun init() {
         connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
-    fun registerNetworkCallback() {
+    private fun registerNetworkCallback() {
         initCoroutine()
         initNetworkMonitoring()
     }
 
-    fun unregisterNetworkCallback() {
+    private fun unregisterNetworkCallback() {
         validNetworks.clear()
         connectivityManager?.unregisterNetworkCallback(networkCallback)
         job.cancel()

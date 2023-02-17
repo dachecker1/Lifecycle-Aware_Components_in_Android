@@ -60,24 +60,9 @@ class MainActivity : AppCompatActivity() {
         })
         viewModel.getRandomRecipe()
 
-        // 1. Network Monitor Initialization
-        networkMonitor.init()
-
         networkMonitor.networkAvailableStateFlow.asLiveData().observe(this, Observer { networkState ->
             handleNetworkState(networkState)
         })
-    }
-
-    // 2. Register network callback.
-    override fun onStart() {
-        super.onStart()
-        networkMonitor.registerNetworkCallback()
-    }
-
-    // 3. Unregister network callback.
-    override fun onStop() {
-        super.onStop()
-        networkMonitor.unregisterNetworkCallback()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
