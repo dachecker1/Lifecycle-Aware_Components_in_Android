@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         networkMonitor = NetworkMonitor(this)
+        lifecycle.addObserver(networkMonitor)
 
         viewModel.recipeState.observe(this, Observer {
             when (it) {
