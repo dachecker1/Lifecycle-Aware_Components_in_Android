@@ -1,6 +1,7 @@
 package com.vk.lifecycle_aware_components_in_android
 
 import android.app.Application
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.vk.lifecycle_aware_components_in_android.analytics.AppGlobalEvents
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -14,5 +15,6 @@ class RecipesApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        ProcessLifecycleOwner.get().lifecycle.addObserver(appGlobalEvents)
     }
 }
