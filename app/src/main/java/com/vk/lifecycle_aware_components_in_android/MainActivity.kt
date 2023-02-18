@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         networkMonitor = NetworkMonitor(this, lifecycle)
         lifecycle.addObserver(networkMonitor)
 
+        unavailableConnectionLifecycleOwner.addObserver(networkObserver)
+
         viewModel.recipeState.observe(this, Observer {
             when (it) {
                 RecipeApiState.Error -> showNetworkUnavailableAlert(R.string.error)
@@ -137,7 +139,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleNetworkState(networkState: NetworkState?) {
         when (networkState) {
-            NetworkState.Unavailable -> showNetworkUnavailableAlert(R.string.network_is_unavailable)
+            NetworkState.Unavailable -> unavailableConnectionLifecycleOwner.onConnectionLost()
+            NetworkState.Available -> unavailableConnectionLifecycleOwner.onConnectionAvailable()
             else -> {}
         }
     }

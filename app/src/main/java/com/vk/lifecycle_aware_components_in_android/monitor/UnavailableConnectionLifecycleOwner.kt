@@ -1,6 +1,7 @@
 package com.vk.lifecycle_aware_components_in_android.monitor
 
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import javax.inject.Inject
@@ -9,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class UnavailableConnectionLifecycleOwner @Inject constructor() : LifecycleOwner {
 
-    val lifecycleRegistry : LifecycleRegistry = LifecycleRegistry(this)
+    private val lifecycleRegistry : LifecycleRegistry = LifecycleRegistry(this)
 
     override fun getLifecycle(): Lifecycle {
         return lifecycleRegistry
@@ -21,5 +22,9 @@ class UnavailableConnectionLifecycleOwner @Inject constructor() : LifecycleOwner
 
     fun onConnectionLost(){
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+    }
+
+    fun addObserver(lifecycleObserver: LifecycleObserver) {
+        lifecycleRegistry.addObserver(lifecycleObserver)
     }
 }
